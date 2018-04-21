@@ -13,4 +13,8 @@
 
 Auth::routes();
 
-Route::resource('/', 'PostsController');
+Route::get('/', function(){
+	return redirect('posts');
+});
+
+Route::resource('posts', 'PostsController');

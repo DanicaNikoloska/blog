@@ -10,9 +10,7 @@
         <!-- Blog Entries Column -->
         <div class="col-md-8">
 
-          <h1 class="my-4">
-            
-          </h1>
+          @include('inc.messages')
 
           <!-- Blog Posts -->
           @foreach($posts as $post)

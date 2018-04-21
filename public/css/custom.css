@@ -11,6 +11,10 @@ body {
 	margin: 0 auto;
 	display: table;
 }
+.card-img-top{
+	height: 400px !important;
+	max-height: 400px !important;
+}
 
 @media (min-width: 992px) {
   body {

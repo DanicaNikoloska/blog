@@ -8,13 +8,15 @@
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="{{ route('index') }}">Home
+          <a class="nav-link" href="{{ route('posts.index') }}">Home
             <span class="sr-only">(current)</span>
           </a>
-        </li>        
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('create') }}">Create new post</a>
-        </li>        
+        </li>  
+        @if(Auth::check())      
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('posts.create') }}">Create new post</a>
+          </li>     
+        @endif   
       </ul>
       <!-- Right Side Of Navbar -->
       <ul class="navbar-nav ml-auto">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use Auth;
 
 class PostsController extends Controller
 {
@@ -14,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $posts = Post::with('user')->paginate(3);
+        $posts = Post::with('user')->orderBy('created_at', 'desc')->paginate(3);
         return view('posts.index')->with('posts', $posts);
     }
 
@@ -36,7 +37,26 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required'
+        ]);       
+
+        // get the filename
+        $filename = $request->file('image')->getClientOriginalName();
+        // upload image       
+        $path = $request->file('image')->storeAs('/public/images/', $filename);
+
+        // create post
+        $post = new Post;
+        $post->fill($request->all());
+        $post->user_id = Auth::user()->id;
+        $post->image = $filename;
+
+        $post->save();
+
+        return redirect()->route('posts.index')->with('message', 'Post successfully added!');
     }
 
     /**
