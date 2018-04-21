@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Hash;
 
 class User extends Authenticatable
 {
@@ -28,12 +29,7 @@ class User extends Authenticatable
     ];
 
     public function posts(){
-        return $this->hasMany(App\Post::class);
+        return $this->hasMany(Post::class);
     }
-
-    public function setPasswordAttribute($pass){
-
-        $this->attributes['password'] = Hash::make($pass);
-
-    }
+    
 }
