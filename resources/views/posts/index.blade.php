@@ -36,14 +36,23 @@
 
         <!-- Sidebar Post Column -->
         <div class="col-md-4">
-
-          <!-- Featured Post -->
-          <div class="card my-4">
-            <h5 class="card-header">Side Widget</h5>
-            <div class="card-body">
-              You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+          @foreach($featured as $post)
+            <!-- Featured Post -->
+            <br>
+            <h5 class="alert alert-info">Featured Post</h5>
+            <div class="card my-4">              
+              <img class="card-img-featured" src="{{ asset('/storage/images/'.$post->image) }}" alt="Card image cap">
+              <div class="card-body">
+                <h4 class="card-title">{{ $post->title }}</h4>
+                <p class="card-text">{{ $post->description }}</p>
+                <a href="#" class="btn btn-primary">Read More &rarr;</a>
+              </div>
+              <div class="card-footer text-muted">
+                Posted on {{ date('d M Y', strtotime($post->created_at)) }} 
+                by <i>{{ $post->user->name }}</i>
+              </div>
             </div>
-          </div>
+          @endforeach
 
         </div>
 

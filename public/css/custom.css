@@ -15,6 +15,10 @@ body {
 	height: 400px !important;
 	max-height: 400px !important;
 }
+.card-img-featured{
+	height: 200px !important;
+	max-height: 200px !important;
+}
 
 @media (min-width: 992px) {
   body {

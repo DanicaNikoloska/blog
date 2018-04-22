@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use Auth;
+use App\Jobs\FeaturedPost;
 
 class PostsController extends Controller
 {
@@ -15,8 +16,16 @@ class PostsController extends Controller
      */
     public function index()
     {
+        // dispatch job to queue to make one post featured
+        $featuredPost = (new FeaturedPost());
+        $this->dispatch($featuredPost);
+
+        // get all posts
         $posts = Post::with('user')->orderBy('created_at', 'desc')->paginate(3);
-        return view('posts.index')->with('posts', $posts);
+
+        // get featured post
+        $featured = Post::where('featured', true)->get();
+        return view('posts.index')->with(['posts' => $posts, 'featured' => $featured]);
     }
 
     /**
@@ -59,48 +68,19 @@ class PostsController extends Controller
         return redirect()->route('posts.index')->with('message', 'Post successfully added!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    // json response
+    public function getPostsJson(){
+
+        $posts = Post::orderBy('created_at', 'desc')->get();
+        return response()->json($posts);
+ 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    // xml response
+    public function getPostsXML(){
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        $posts = Post::orderBy('created_at', 'desc')->get();
+        return response()->xml($posts);
+ 
     }
 }
